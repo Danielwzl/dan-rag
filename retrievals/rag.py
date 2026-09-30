@@ -1,13 +1,15 @@
+from pathlib import Path
 import chromadb
 import ollama
 
-
+ROOT_DIR = Path(__file__).resolve().parent.parent
+CHROMA_DB_DIR = ROOT_DIR / "chroma_db"
 LLM_MODEL = "deepseek-r1:8b"
 EMBEDDING_MODEL = "nomic-embed-text"
 
 
 client = chromadb.PersistentClient(
-    path="chroma_db"
+    path=str(CHROMA_DB_DIR)
 )
 
 collection = client.get_collection(

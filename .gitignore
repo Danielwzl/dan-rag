@@ -77,3 +77,11 @@ dist/
 
 test-results/
 playwright-report/
+
+# Local structured database
+*.duckdb
+*.duckdb.wal
+
+# Local business data
+data/*
+!data/.gitkeep

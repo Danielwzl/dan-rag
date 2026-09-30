@@ -5,13 +5,12 @@ import ollama
 from pypdf import PdfReader
 from chucking.general import fixed_size_chunks
 
-
-DOCUMENTS_DIR = Path("documents")
-DB_DIR = "chroma_db"
+ROOT_DIR = Path(__file__).resolve().parent.parent
+DOCUMENTS_DIR = ROOT_DIR / "documents"
+DB_DIR = ROOT_DIR / "chroma_db"
 FILE_NAMES = "Daniel_Wang_Cover_Letter_QA_Automation.pdf" or "*.pdf" 
 
 EMBEDDING_MODEL = "nomic-embed-text"
-
 
 def load_pdf(file_path):
     reader = PdfReader(file_path)
