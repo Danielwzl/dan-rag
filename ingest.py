@@ -3,6 +3,7 @@ from pathlib import Path
 import chromadb
 import ollama
 from pypdf import PdfReader
+from chucking.general import fixed_size_chunks
 
 
 DOCUMENTS_DIR = Path("documents")
@@ -29,25 +30,6 @@ def load_pdf(file_path):
     return pages
 
 
-def chunk_text(text, chunk_size=1000, overlap=150):
-
-    chunks = []
-
-    start = 0
-
-    while start < len(text):
-
-        end = start + chunk_size
-
-        chunk = text[start:end]
-
-        chunks.append(chunk)
-
-        start += chunk_size - overlap
-
-    return chunks
-
-
 client = chromadb.PersistentClient(
     path=DB_DIR
 )
@@ -65,7 +47,7 @@ for pdf_file in DOCUMENTS_DIR.glob(FILE_NAMES):
 
     for page in pages:
 
-        chunks = chunk_text(page["text"])
+        chunks = fixed_size_chunks(page["text"], chunk_size=1000, overlap=150)
 
         for index, chunk in enumerate(chunks):
 
