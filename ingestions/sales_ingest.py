@@ -1,11 +1,23 @@
 from structured_data.loader import load_file
 from structured_data.database import create_database
+from structured_data.data_cleaning import remove_columns
 
 
 DATA_FILE = "data/items-2026-09-27-2026-10-04.csv"
 
 
 df = load_file(DATA_FILE)
+
+df = remove_columns(
+    df,
+    [
+        "Time Zone",
+        "Device Name",
+        "Token",
+        "PAN Suffix",
+        "Customer Reference ID"
+    ]
+)
 
 print("Rows:", len(df))
 print("Columns:", len(df.columns))
