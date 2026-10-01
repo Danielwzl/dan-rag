@@ -23,3 +23,24 @@
                      │
                      ▼
                   Answer
+
+
+
+                 User
+                  │
+                  ▼
+             AI Assistant
+                  │
+        ┌─────────┴─────────┐
+        │                   │
+   Understanding        Analytics
+        │                   │
+   DeepSeek/RAG          DuckDB
+        │                   │
+        └─────────┬─────────┘
+                  │
+             Data Layer
+                  │
+       ┌──────────┼──────────┐
+       ▼          ▼          ▼
+     CSV        XLSX       Recipes
