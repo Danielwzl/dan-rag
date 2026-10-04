@@ -1,5 +1,5 @@
 from structured_data.loader import load_file
-from structured_data.database import create_database
+from structured_data.database import create_table_with_data
 from structured_data.data_cleaning import clean_sales_data
 
 
@@ -40,6 +40,6 @@ for column in df.columns:
 print("\nFirst 5 rows:")
 print(df.head())
 
-create_database(df)
+create_table_with_data(df, "sales")
 
 print("\nSales database created.")

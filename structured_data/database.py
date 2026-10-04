@@ -4,16 +4,30 @@ import pandas as pd
 
 DB_PATH = "sales.duckdb"
 
+def create_table_ingredients_names():
+    connection = duckdb.connect(DB_PATH)
+    connection.execute("CREATE SEQUENCE IF NOT EXISTS user_id_seq START 1;")
+    connection.execute("""
+        CREATE OR REPLACE TABLE ingredients_names(
+            id INTEGER PRIMARY KEY DEFAULT nextval('user_id_seq'),
+            category VARCHAR,
+            ingredient_name VARCHAR,
+            cost_per_kg DOUBLE
+        )
+    """)
 
-def create_database(df: pd.DataFrame):
+    connection.close()
+
+
+def create_table_with_data(df: pd.DataFrame, table_name: str):
     connection = duckdb.connect(DB_PATH)
 
-    connection.register("sales_dataframe", df)
+    connection.register("temp_dataframe", df)
 
-    connection.execute("""
-        CREATE OR REPLACE TABLE sales AS
+    connection.execute(f"""
+        CREATE OR REPLACE TABLE {table_name} AS
         SELECT *
-        FROM sales_dataframe
+        FROM temp_dataframe
     """)
 
     connection.close()
@@ -23,6 +37,15 @@ def execute_query(sql):
     connection = duckdb.connect(DB_PATH)
 
     result = connection.execute(sql).fetchdf()
+
+    connection.close()
+
+    return result
+
+def execute_many(sql, data: []):
+    connection = duckdb.connect(DB_PATH)
+
+    result = connection.executemany(sql, data)
 
     connection.close()
 
