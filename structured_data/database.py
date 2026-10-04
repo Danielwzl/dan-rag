@@ -6,7 +6,7 @@ DB_PATH = "sales.duckdb"
 
 def create_table_ingredients_names():
     connection = duckdb.connect(DB_PATH)
-    connection.execute("CREATE SEQUENCE IF NOT EXISTS user_id_seq START 1;")
+    connection.execute("CREATE OR REPLACE SEQUENCE user_id_seq START 1;")
     connection.execute("""
         CREATE OR REPLACE TABLE ingredients_names(
             id INTEGER PRIMARY KEY DEFAULT nextval('user_id_seq'),
