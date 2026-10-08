@@ -4,7 +4,7 @@ from structured_data.database import execute_query
 sql = """
 SELECT
     *
-FROM ingredients_names
+FROM recipes
 """
 
 result = execute_query(sql)

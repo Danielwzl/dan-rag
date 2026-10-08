@@ -7,8 +7,7 @@ from structured_data.ingredients.insert_ingredients import insert_ingredients_na
 DATA_FILE = "data/Full Menu Update - Ingredients.csv"
 
 df = load_file(DATA_FILE)
-
-# df_reciept = df.iloc[1:]
+df_reciept = df.iloc[1:]
 
 print("Rows:", len(df))
 print("Columns:", len(df.columns))
@@ -18,7 +17,7 @@ for column in df.columns:
     print(f"- {column}")
 
 print("\nFirst 5 rows:")
-print(df)
+print(df_reciept)
 
 create_table_ingredients_names()
 
