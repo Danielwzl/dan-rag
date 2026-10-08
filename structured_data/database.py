@@ -32,6 +32,16 @@ def create_table_with_data(df: pd.DataFrame, table_name: str):
 
     connection.close()
 
+def show_all_data(table: str):
+    connection = duckdb.connect(DB_PATH)
+    result = connection.sql(f"SELECT * FROM {table}").fetchdf()
+    pd.set_option('display.max_columns', None)       # Show all columns without truncation
+    pd.set_option('display.width', 1000)             # Force the line length limit to 1000 characters
+    pd.set_option('display.expand_frame_repr', False) # Prevent wrapping columns to new lines
+    connection.close()
+
+    return result
+
 
 def execute_query(sql):
     connection = duckdb.connect(DB_PATH)

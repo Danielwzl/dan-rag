@@ -1,13 +1,21 @@
 from structured_data.loader import load_file
-from structured_data.database import create_table_ingredients_names
-from structured_data.data_cleaning import clean_sales_data
-from structured_data.ingredients.insert_ingredients import insert_ingredients_names
+from structured_data.database import create_table_with_data
 
 
-DATA_FILE = "data/Full Menu Update - Ingredients.csv"
+DATA_FILE = "data/metadata/ingredients.csv"
+
 
 df = load_file(DATA_FILE)
-df_reciept = df.iloc[1:]
+
+df.columns = (
+    df.columns
+      .str.strip()
+      .str.lower()
+      .str.replace(r"\s+", "_", regex=True)
+)
+
+
+df = df.fillna("")
 
 print("Rows:", len(df))
 print("Columns:", len(df.columns))
@@ -17,10 +25,8 @@ for column in df.columns:
     print(f"- {column}")
 
 print("\nFirst 5 rows:")
-print(df_reciept)
+print(df.head())
 
-create_table_ingredients_names()
+create_table_with_data(df, "ingredients")
 
-insert_ingredients_names()
-
-print("\nIngredients_names database created.")
+print("\ndatabase created.")

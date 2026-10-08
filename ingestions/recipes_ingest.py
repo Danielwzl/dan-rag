@@ -7,6 +7,13 @@ DATA_FILE = "data/metadata/recipes.csv"
 
 df = load_file(DATA_FILE)
 
+df.columns = (
+    df.columns
+      .str.strip()
+      .str.lower()
+      .str.replace(r"\s+", "_", regex=True)
+)
+
 df = df.fillna("")
 
 print("Rows:", len(df))
