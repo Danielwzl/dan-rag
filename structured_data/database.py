@@ -32,6 +32,20 @@ def create_table_with_data(df: pd.DataFrame, table_name: str):
 
     connection.close()
 
+def insert_into_table_with_data(df: pd.DataFrame, table_name: str):
+    connection = duckdb.connect(DB_PATH)
+
+    connection.register("temp_dataframe", df)
+
+    connection.execute(f"""
+        CREATE TABLE IF NOT EXISTS {table_name} AS
+        SELECT * FROM temp_dataframe WHERE 1=0
+    """)
+
+    connection.execute(f"INSERT INTO {table_name} SELECT * FROM temp_dataframe")
+
+    connection.close()
+
 def show_all_data(table: str):
     connection = duckdb.connect(DB_PATH)
     result = connection.sql(f"SELECT * FROM {table}").fetchdf()

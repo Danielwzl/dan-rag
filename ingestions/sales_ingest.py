@@ -1,11 +1,14 @@
 from structured_data.loader import load_file
-from structured_data.database import create_table_with_data
+from structured_data.database import insert_into_table_with_data
 from structured_data.data_cleaning import clean_sales_data
 from structured_data.data_cleaning import clean_data
 import pandas as pd
+from pathlib import Path
 
 
-DATA_FILE = "data/items-2026-09-14-2026-09-27.csv"
+# DATA_FILE = "data/sales/items-2026-09-14-2026-09-27.csv"
+dir_path = Path("data/sales")
+
 
 REQUIRED_COLUMNS = [
     "Date",
@@ -28,29 +31,37 @@ REQUIRED_COLUMNS = [
     "Card Brand"
 ]
 
-df = load_file(DATA_FILE)
+def load_sale_data(file_path: str):
+    df = load_file(file_path)
 
 
-df = clean_sales_data(df, REQUIRED_COLUMNS, [e for e in REQUIRED_COLUMNS if e not in {"Qty", "Count"}], ["Qty", "Count"])
+    df = clean_sales_data(df, REQUIRED_COLUMNS, [e for e in REQUIRED_COLUMNS if e not in {"Qty", "Count"}], ["Qty", "Count"])
 
-df["Date"] = pd.to_datetime(df["Date"], errors="coerce").dt.date
+    df["Date"] = pd.to_datetime(df["Date"], errors="coerce").dt.date
 
-df = clean_data(df, ["Gross Sales", "Discounts", "Net Sales", "Tax"])
+    df = clean_data(df, ["Gross Sales", "Discounts", "Net Sales", "Tax"])
 
 
 
-df = df.fillna("")
+    df = df.fillna("")
 
-print("Rows:", len(df))
-print("Columns:", len(df.columns))
+    print("Rows:", len(df))
+    print("Columns:", len(df.columns))
 
-print("\nColumns:")
-for column in df.columns:
-    print(f"- {column}")
+    print("\nColumns:")
+    for column in df.columns:
+        print(f"- {column}")
 
-print("\nFirst 5 rows:")
-print(df.head())
+    print("\nFirst 5 rows:")
+    print(df.head())
 
-create_table_with_data(df, "sales")
+    insert_into_table_with_data(df, "sales")
 
-print("\nSales database created.")
+    print("\nSales database created.")
+
+
+for file_path in dir_path.iterdir():
+    load_sale_data(file_path)
+
+
+

@@ -38,6 +38,10 @@ WITH sales_exploded AS (
     FROM sales_exploded;
 """
 
+sql = """
+    select * from sales
+"""
+
 
 
 result = execute_query(sql)

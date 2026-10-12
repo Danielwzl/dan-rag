@@ -27,6 +27,6 @@ for column in df.columns:
 print("\nFirst 5 rows:")
 print(df.head())
 
-create_table_with_data(df, "ingredients")
+# create_table_with_data(df, "ingredients")
 
-print("\ndatabase created.")
+# print("\ndatabase created.")

@@ -38,9 +38,9 @@ for column in df.columns:
 print("\nFirst 5 rows:")
 print(df.head())
 
-create_table_with_data(df, "menu_items")
+# create_table_with_data(df, "menu_items")
 
-print("\ndatabase created.")
+# print("\ndatabase created.")
 
 
 
