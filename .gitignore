@@ -85,3 +85,7 @@ playwright-report/
 # Local business data
 data/*
 !data/.gitkeep
+count_same_group.csv
+output_file.csv
+processed_files.txt
+output_file2.csv
