@@ -39,7 +39,11 @@ WITH sales_exploded AS (
 """
 
 sql = """
-    select * from sales
+    drop table sales
+"""
+
+sql = """
+    select * from sales where location = 'Shawnessy'
 """
 
 

@@ -7,7 +7,7 @@ sql_count_same_group  = """
     FROM menu_items r
     JOIN sales s 
         ON r.sku = s.sku
-    WHERE s."date" >= '2026-09-14' AND s."date" < '2026-09-27'
+    WHERE CAST(s."date" AS DATE) BETWEEN '2026-09-14' AND '2026-09-27' AND s.location = 'Shawnessy'
     GROUP BY group_name
     ORDER BY item_count DESC
     ;

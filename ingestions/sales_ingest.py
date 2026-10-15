@@ -1,4 +1,6 @@
 from structured_data.loader import load_file
+from structured_data.loader import load_processed_files
+from structured_data.loader import mark_file_as_processed
 from structured_data.database import insert_into_table_with_data
 from structured_data.data_cleaning import clean_sales_data
 from structured_data.data_cleaning import clean_data
@@ -8,7 +10,6 @@ from pathlib import Path
 
 # DATA_FILE = "data/sales/items-2026-09-14-2026-09-27.csv"
 dir_path = Path("data/sales")
-
 
 REQUIRED_COLUMNS = [
     "Date",
@@ -60,8 +61,15 @@ def load_sale_data(file_path: str):
     print("\nSales database created.")
 
 
+processed_files = load_processed_files();
+print(processed_files);
 for file_path in dir_path.iterdir():
+    if str(Path(file_path).resolve()) in processed_files:
+        print(f"skipped file: {file_path}")
+        continue
     load_sale_data(file_path)
+    mark_file_as_processed(file_path)
+    print(f"Successfully imported: {file_path}")
 
 
 

@@ -1,46 +1,10 @@
-                 Question
-                     │
-                     ▼
-             nomic-embed-text
-                     │
-                     ▼
-              Query Vector
-                     │
-                     ▼
-                ChromaDB
-                     │
-                     ▼
-               Top 3 chunks
-                     │
-                     ▼
-              Context Builder
-                     │
-                     ▼
-                  Prompt
-                     │
-                     ▼
-              DeepSeek-R1 8B
-                     │
-                     ▼
-                  Answer
+安装python：https://www.python.org/downloads/
+预装环境：pip install
 
+存数据：
+1. 把销售文件放入data/sales 文件夹里 
+2. 运行：python -m ingestions.sales_ingest
 
-
-                 User
-                  │
-                  ▼
-             AI Assistant
-                  │
-        ┌─────────┴─────────┐
-        │                   │
-   Understanding        Analytics
-        │                   │
-   DeepSeek/RAG          DuckDB
-        │                   │
-        └─────────┬─────────┘
-                  │
-             Data Layer
-                  │
-       ┌──────────┼──────────┐
-       ▼          ▼          ▼
-     CSV        XLSX       Recipes
+跑数据：
+1. 原料的总消耗：python -m querys.ingredients
+2. 每种饮品的销售排名： python -m querys.sales
