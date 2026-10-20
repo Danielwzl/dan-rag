@@ -43,7 +43,8 @@ sql = """
 """
 
 sql = """
-    select * from sales where location = 'Shawnessy'
+
+    Select * from sales where item = 'Black Tea' and location = 'Shawnessy' and sku != 'G04004'
 """
 
 

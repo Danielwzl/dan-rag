@@ -1,13 +1,33 @@
 from structured_data.database import execute_query
 from structured_data.database import show_all_data
 
+sql_count_same_item  = """
+    SELECT
+       COALESCE(r.name, s.item) AS group_name, COUNT(*) as item_count
+    FROM menu_items r
+    RIGHT JOIN sales s 
+        ON CASE
+            WHEN s.sku IS NULL OR TRIM(s.sku) = ''
+                THEN TRIM(s.item) = TRIM(r.name)
+            ELSE TRIM(CAST(s.sku AS VARCHAR)) = TRIM(CAST(r.sku AS VARCHAR))
+        END
+    WHERE CAST(s."date" AS DATE) BETWEEN '2025-01-01' AND '2026-01-01'
+    GROUP BY group_name
+    ORDER BY item_count DESC
+    ;
+"""
+
 sql_count_same_group  = """
     SELECT
-        r.group as group_name, COUNT(*) as item_count
+       COALESCE(r.group, s.item) AS group_name, COUNT(*) as item_count
     FROM menu_items r
-    JOIN sales s 
-        ON r.sku = s.sku
-    WHERE CAST(s."date" AS DATE) BETWEEN '2026-09-14' AND '2026-09-27' AND s.location = 'Shawnessy'
+    RIGHT JOIN sales s 
+        ON CASE
+            WHEN s.sku IS NULL OR TRIM(s.sku) = ''
+                THEN TRIM(s.item) = TRIM(r.name)
+            ELSE TRIM(CAST(s.sku AS VARCHAR)) = TRIM(CAST(r.sku AS VARCHAR))
+        END
+    WHERE CAST(s."date" AS DATE) BETWEEN '2025-01-01' AND '2026-01-01' AND s.location = 'Shawnessy'
     GROUP BY group_name
     ORDER BY item_count DESC
     ;
@@ -28,7 +48,7 @@ sql_count_same_group  = """
 # FROM sales;
 # """
 
-result = execute_query(sql_count_same_group)
+result = execute_query(sql_count_same_item)
 
 print(result)
 result.to_csv("count_same_group.csv", index=False)

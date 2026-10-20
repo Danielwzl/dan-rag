@@ -4,8 +4,8 @@ import pandas as pd
 con = duckdb.connect("sales.duckdb", read_only=True)
 
 ingredient = 'Pearl'
-date_start = '2026-09-14'
-date_end = '2026-09-27'
+date_start = '2025-01-01'
+date_end = '2026-01-01'
 
 sql = """
 WITH params AS (
@@ -49,6 +49,7 @@ base_consumption AS (
     SELECT SUM(s.qty * u.quantity) as quantity, s.location
     FROM sales_data s
     JOIN usage_per_cup u ON s.sku = u.sku
+    #如果item name没有L或者M结尾, 通过price point name 加上 L M, 然后让AI汇总s.qty数据，以算出最终消耗
     GROUP BY s.location
 ),
 
