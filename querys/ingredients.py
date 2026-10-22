@@ -3,9 +3,9 @@ import pandas as pd
 
 con = duckdb.connect("sales.duckdb", read_only=True)
 
-ingredient = 'Strawberry Jam'
-date_start = '2026-09-21'
-date_end = '2026-10-19'
+ingredient = 'Strawberry Syrup'
+date_start = '2025-08-18'
+date_end = '2026-08-16'
 
 sql = """
 WITH params AS (
@@ -33,14 +33,14 @@ usage_per_cup AS (
         r.menu_name as item_name,
         UPPER(TRIM(CAST(r.sku AS VARCHAR))) AS sku,
         TRY_CAST(r.quantity AS DOUBLE) AS quantity
-    FROM recipes_strawb_921 r
+    FROM recipes r
     CROSS JOIN params p
     WHERE LOWER(TRIM(r.ingredient_name)) = LOWER(topping_name)
 ),
 
 topping_unit AS (
     SELECT COALESCE(MAX(TRY_CAST(quantity AS DOUBLE)), 0) AS quantity
-    FROM recipes_strawb_921
+    FROM recipes
     CROSS JOIN params p
     WHERE LOWER(TRIM(menu_name)) = LOWER(p.topping_name)
 ),

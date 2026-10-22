@@ -4,8 +4,8 @@ import pandas as pd
 con = duckdb.connect("sales.duckdb", read_only=True)
 
 ingredient = 'Strawberry Jam'
-date_start = '2025-09-15'
-date_end = '2025-10-19'
+date_start = '2026-09-14'
+date_end = '2026-10-18'
 
 sql = """
 WITH params AS (
