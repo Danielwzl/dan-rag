@@ -47,6 +47,17 @@ sql = """
     Select * from sales where item = 'Black Tea' and location = 'Shawnessy' and sku != 'G04004'
 """
 
+sql = """
+
+    Select * from recipes where ingredient_name LIKE '%Strawberry%'
+"""
+
+
+sql = """
+SELECT * 
+FROM sales s 
+WHERE s.sku NOT IN (SELECT sku FROM recipes WHERE sku IS NOT NULL)
+"""
 
 
 result = execute_query(sql)

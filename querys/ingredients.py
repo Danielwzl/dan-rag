@@ -3,9 +3,9 @@ import pandas as pd
 
 con = duckdb.connect("sales.duckdb", read_only=True)
 
-ingredient = 'Pearl'
-date_start = '2025-01-01'
-date_end = '2026-01-01'
+ingredient = 'Strawberry Jam'
+date_start = '2026-09-21'
+date_end = '2026-10-19'
 
 sql = """
 WITH params AS (
@@ -33,14 +33,14 @@ usage_per_cup AS (
         r.menu_name as item_name,
         UPPER(TRIM(CAST(r.sku AS VARCHAR))) AS sku,
         TRY_CAST(r.quantity AS DOUBLE) AS quantity
-    FROM recipes r
+    FROM recipes_strawb_921 r
     CROSS JOIN params p
     WHERE LOWER(TRIM(r.ingredient_name)) = LOWER(topping_name)
 ),
 
 topping_unit AS (
     SELECT COALESCE(MAX(TRY_CAST(quantity AS DOUBLE)), 0) AS quantity
-    FROM recipes
+    FROM recipes_strawb_921
     CROSS JOIN params p
     WHERE LOWER(TRIM(menu_name)) = LOWER(p.topping_name)
 ),
@@ -49,7 +49,6 @@ base_consumption AS (
     SELECT SUM(s.qty * u.quantity) as quantity, s.location
     FROM sales_data s
     JOIN usage_per_cup u ON s.sku = u.sku
-    #如果item name没有L或者M结尾, 通过price point name 加上 L M, 然后让AI汇总s.qty数据，以算出最终消耗
     GROUP BY s.location
 ),
 
@@ -132,6 +131,7 @@ FROM (
         SUM(total_consumption)
     FROM result_data
 ) final_result
+CROSS JOIN params p
 ORDER BY
     CASE WHEN location = 'TOTAL' THEN 1 ELSE 0 END,
     location;
