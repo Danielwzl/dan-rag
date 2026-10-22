@@ -4,8 +4,8 @@ import pandas as pd
 con = duckdb.connect("sales.duckdb", read_only=True)
 
 ingredient = 'Strawberry Jam'
-date_start = '2025-08-18'
-date_end = '2026-08-16'
+date_start = '2025-09-15'
+date_end = '2025-10-19'
 
 sql = """
 WITH params AS (
@@ -143,5 +143,6 @@ result = con.execute(
 pd.set_option('display.max_rows', None)
 pd.set_option('display.max_columns', None)
 print(result)
+print(f'{ingredient}: {date_start} - {date_end}')
 
 con.close()

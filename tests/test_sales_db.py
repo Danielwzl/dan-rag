@@ -59,6 +59,12 @@ FROM sales s
 WHERE s.sku NOT IN (SELECT sku FROM recipes WHERE sku IS NOT NULL)
 """
 
+sql = """
+SELECT * 
+FROM sales s 
+WHERE s.sku NOT IN (SELECT sku FROM recipes WHERE sku IS NOT NULL)
+"""
+
 
 result = execute_query(sql)
 

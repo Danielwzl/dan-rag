@@ -131,7 +131,6 @@ FROM (
         SUM(total_consumption)
     FROM result_data
 ) final_result
-CROSS JOIN params p
 ORDER BY
     CASE WHEN location = 'TOTAL' THEN 1 ELSE 0 END,
     location;
@@ -144,5 +143,6 @@ result = con.execute(
 pd.set_option('display.max_rows', None)
 pd.set_option('display.max_columns', None)
 print(result)
+print(f'{ingredient}: {date_start} - {date_end}')
 
 con.close()
